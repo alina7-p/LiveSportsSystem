@@ -46,4 +46,8 @@ public class GoalsVisitor implements Visitor<Integer> {
     public Integer visitMedicalStaff(MedicalStaff staff) {
         return 0;
     }
+    @Override
+    public Integer visitAnalyst(Analyst analyst) {
+        return 0;
+    }
 }

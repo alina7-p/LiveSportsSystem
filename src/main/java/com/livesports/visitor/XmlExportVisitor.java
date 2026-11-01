@@ -1,10 +1,8 @@
-
 package com.livesports.visitor;
 
 import com.livesports.model.*;
 
 public class XmlExportVisitor implements Visitor<String> {
-
     @Override
     public String visitLeague(League league) {
         StringBuilder xml = new StringBuilder();
@@ -21,7 +19,6 @@ public class XmlExportVisitor implements Visitor<String> {
 
         return xml.toString();
     }
-
     @Override
     public String visitClub(Club club) {
         StringBuilder xml = new StringBuilder();
@@ -89,6 +86,14 @@ public class XmlExportVisitor implements Visitor<String> {
                 + escape(medicalStaff.getSpecialization())
                 + "</specialization>"
                 + "</medicalStaff>";
+    }
+    @Override
+    public String visitAnalyst(Analyst analyst) {
+        return "<analyst>"
+                + "<name>" + escape(analyst.getName()) + "</name>"
+                + "<salary>" + analyst.getSalary() + "</salary>"
+                + "<specialization>" + escape(analyst.getSpecialization()) + "</specialization>"
+                + "</analyst>";
     }
 
     private String escape(String value) {

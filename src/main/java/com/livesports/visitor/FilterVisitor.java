@@ -55,4 +55,8 @@ public class FilterVisitor implements Visitor<List<Player>> {
     public List<Player> visitMedicalStaff(MedicalStaff medicalStaff) {
         return filteredPlayers;
     }
+    @Override
+    public List<Player> visitAnalyst(Analyst analyst) {
+        return new ArrayList<>();
+    }
 }

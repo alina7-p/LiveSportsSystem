@@ -109,6 +109,15 @@ public class JsonExportVisitor implements Visitor<String> {
                 + escape(medicalStaff.getSpecialization()) + "\""
                 + "}";
     }
+    @Override
+    public String visitAnalyst(Analyst analyst) {
+        return "{"
+                + "\"type\":\"Analyst\","
+                + "\"name\":\"" + escape(analyst.getName()) + "\","
+                + "\"salary\":" + analyst.getSalary() + ","
+                + "\"specialization\":\"" + escape(analyst.getSpecialization()) + "\""
+                + "}";
+    }
 
     private String escape(String value) {
         return value

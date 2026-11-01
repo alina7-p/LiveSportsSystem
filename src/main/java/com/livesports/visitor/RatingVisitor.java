@@ -48,6 +48,10 @@ public class RatingVisitor implements Visitor<Double> {
     public Double visitMedicalStaff(MedicalStaff medicalStaff) {
         return getAverageRating();
     }
+    @Override
+    public Double visitAnalyst(Analyst analyst) {
+        return 0.0;
+    }
 
     private double getAverageRating() {
         if (playerCount == 0) {

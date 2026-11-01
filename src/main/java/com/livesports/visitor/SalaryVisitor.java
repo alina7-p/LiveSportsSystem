@@ -1,6 +1,7 @@
 package com.livesports.visitor;
 
 import com.livesports.model.*;
+
 public class SalaryVisitor implements Visitor<Double> {
     @Override
     public Double visitLeague(League league) {
@@ -45,6 +46,10 @@ public class SalaryVisitor implements Visitor<Double> {
     @Override
     public Double visitMedicalStaff(MedicalStaff medicalStaff) {
         return medicalStaff.getSalary();
+    }
+    @Override
+    public Double visitAnalyst(Analyst analyst) {
+        return analyst.getSalary();
     }
 }
 

@@ -6,6 +6,7 @@ import com.livesports.observer.listeners.StatisticsObserver;
 import com.livesports.observer.listeners.TeamAnalysisObserver;
 import com.livesports.observer.source.MatchEventSource;
 import com.livesports.visitor.*;
+
 import java.util.List;
 
 public class LiveSportsDemo {
@@ -31,6 +32,9 @@ public class LiveSportsDemo {
         MedicalStaff madridDoctor =
                 new MedicalStaff("Medical Staff 1", 8000, "Physiotherapist");
 
+        Analyst madridAnalyst =
+                new Analyst("Carlos", 12000, "Performance Analyst");
+
         Player haaland = new Player("Haaland", 900000, 9.5, 18);
         Player foden = new Player("Foden", 600000, 8.4, 10);
 
@@ -45,10 +49,13 @@ public class LiveSportsDemo {
         madridTeam.addElement(madridCoach);
         madridTeam.addElement(referee);
         madridTeam.addElement(madridDoctor);
+        madridTeam.addElement(madridAnalyst);
+
         cityTeam.addElement(haaland);
         cityTeam.addElement(foden);
         cityTeam.addElement(cityCoach);
         cityTeam.addElement(cityDoctor);
+
         realMadrid.addElement(madridTeam);
         manCity.addElement(cityTeam);
 
@@ -58,21 +65,20 @@ public class LiveSportsDemo {
         System.out.println("\n=== SALARY ANALYSIS ===");
 
         SalaryVisitor salaryVisitor = new SalaryVisitor();
-
         double totalSalary = league.accept(salaryVisitor);
 
         System.out.println("Total salaries: " + totalSalary);
+
         System.out.println("\n=== PLAYER RATING ANALYSIS ===");
 
         RatingVisitor ratingVisitor = new RatingVisitor();
-
         double averageRating = league.accept(ratingVisitor);
 
         System.out.println("Average player rating: " + averageRating);
+
         System.out.println("\n=== PLAYERS WITH RATING >= 8.5 ===");
 
         FilterVisitor filterVisitor = new FilterVisitor(8.5);
-
         List<Player> filteredPlayers = league.accept(filterVisitor);
 
         for (Player player : filteredPlayers) {
@@ -80,20 +86,28 @@ public class LiveSportsDemo {
                     player.getName() + " - Rating: " + player.getRating()
             );
         }
+
+        System.out.println("\n=== TOTAL GOALS ANALYSIS ===");
+
+        GoalsVisitor goalsVisitor = new GoalsVisitor();
+        int totalGoals = league.accept(goalsVisitor);
+
+        System.out.println("Total goals: " + totalGoals);
+
         System.out.println("\n=== JSON EXPORT ===");
 
         JsonExportVisitor jsonVisitor = new JsonExportVisitor();
-
         String json = league.accept(jsonVisitor);
 
         System.out.println(json);
+
         System.out.println("\n=== XML EXPORT ===");
 
         XmlExportVisitor xmlVisitor = new XmlExportVisitor();
-
         String xml = league.accept(xmlVisitor);
 
         System.out.println(xml);
+
         System.out.println("\n=== OBSERVER + VISITOR INTEGRATION ===");
 
         MatchEventSource matchSource = new MatchEventSource();
@@ -115,6 +129,8 @@ public class LiveSportsDemo {
         );
 
         matchSource.reportGoal("MATCH-001", "Mbappe");
+
         System.out.println("\n=== DEMO FINISHED ===");
     }
 }
+
