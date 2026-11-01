@@ -2,6 +2,7 @@
 
 ```mermaid
 classDiagram
+    direction TB
 
     class Event {
         <<interface>>
@@ -15,6 +16,8 @@ classDiagram
         -Instant timestamp
         +getType() EventType
     }
+
+    Event <|.. SportEvent
 
     class Observer~E~ {
         <<interface>>
@@ -40,13 +43,13 @@ classDiagram
     class StatisticsAggregator
     class TeamAnalysisObserver
 
-    Event <|.. SportEvent
-    Observer <|.. StatisticsAggregator
-    Observer <|.. TeamAnalysisObserver
     Subject <|.. AbstractSubject
     AbstractSubject <|-- MatchEventSource
     AbstractSubject <|-- PlayerMetricSource
     AbstractSubject <|-- StatisticsAggregator
+
+    Observer <|.. StatisticsAggregator
+    Observer <|.. TeamAnalysisObserver
     AbstractSubject --> Observer
 
     class SportElement {
@@ -61,6 +64,7 @@ classDiagram
     class Coach
     class Referee
     class MedicalStaff
+    class Analyst
 
     SportElement <|.. League
     SportElement <|.. Club
@@ -69,13 +73,11 @@ classDiagram
     SportElement <|.. Coach
     SportElement <|.. Referee
     SportElement <|.. MedicalStaff
+    SportElement <|.. Analyst
 
     League o-- Club
     Club o-- Team
-    Team o-- Player
-    Team o-- Coach
-    Team o-- Referee
-    Team o-- MedicalStaff
+    Team o-- SportElement
 
     class Visitor~R~ {
         <<interface>>
@@ -86,24 +88,28 @@ classDiagram
         +visitCoach(Coach) R
         +visitReferee(Referee) R
         +visitMedicalStaff(MedicalStaff) R
+        +visitAnalyst(Analyst) R
     }
 
     class SalaryVisitor
     class RatingVisitor
     class FilterVisitor
+    class GoalsVisitor
     class JsonExportVisitor
     class XmlExportVisitor
 
     Visitor <|.. SalaryVisitor
     Visitor <|.. RatingVisitor
     Visitor <|.. FilterVisitor
+    Visitor <|.. GoalsVisitor
     Visitor <|.. JsonExportVisitor
     Visitor <|.. XmlExportVisitor
 
-    SportElement --> Visitor : accept
+    SportElement ..> Visitor : accept()
 
     TeamAnalysisObserver --> Team
     TeamAnalysisObserver --> SalaryVisitor
     TeamAnalysisObserver --> RatingVisitor
     TeamAnalysisObserver --> FilterVisitor
+    TeamAnalysisObserver --> StatisticsAggregator
 ```
